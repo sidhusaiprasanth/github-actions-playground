@@ -2,7 +2,32 @@ name: Run name Demo
 run-name: "Triggered by ${{github.actor}} on ${{github.ref_name}} via ${{github.event_name}}"
 
 on:
-  push
+  push:
+    branches: 
+      - main
+      - 'release/**'
+  pull_request: 
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
+  schedule:
+    - cron: '0 9 * * 1'   # Every Monday at 9:00 AM UTC
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: dsfgsdf
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      debug:
+        description: asfdafs
+        type: boolean
+        default: false
 
 jobs:
   demo-job:
@@ -11,3 +36,27 @@ jobs:
     steps:
       - name: Shows who ran the job
         run: echo "This is ran by ${{github.actor}}"
+
+      - name: Print all GitHub contexts
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          JOB_CONTEXT: ${{ toJson(job) }}
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: |
+          echo "=== GitHub Context ==="
+          echo "$GITHUB_CONTEXT"
+          echo "=== Job Context ==="
+          echo "$JOB_CONTEXT"
+          echo "=== Steps Context ==="
+          echo "$STEPS_CONTEXT"
+          echo "=== Runner Context ==="
+          echo "$RUNNER_CONTEXT"
+          echo "=== Strategy Context ==="
+          echo "$STRATEGY_CONTEXT"
+          echo "=== Matrix Context ==="
+          echo "$MATRIX_CONTEXT"
+
+      

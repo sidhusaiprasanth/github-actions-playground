@@ -29,6 +29,10 @@ on:
         type: boolean
         default: false
 
+concurrency:
+  group: ${{ github.workflow}}-${{github.ref_name}}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   demo-job:
     runs-on: ubuntu-latest

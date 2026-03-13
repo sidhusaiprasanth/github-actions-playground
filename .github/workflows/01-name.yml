@@ -3,16 +3,20 @@ run-name: Deploy by ${{github.actor}} on ${{ github.ref_name}} via ${{ github.ev
 
 on: [push]
 
-defaults:
-  run:
-    shell: bash
-    working-directory: .github/workflows
+# defaults:
+#   run:
+#     shell: bash
+#     working-directory: .github/workflows
 
 jobs:
   say-hello:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - uses: actions/checkout@v4
       - run: |
+          echo "${{github.workspace}}"
           pwd
           ls -la

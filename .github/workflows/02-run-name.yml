@@ -1,0 +1,13 @@
+name: Run name Demo
+run-name: "Triggered by ${{github.actor}} on ${{github.ref_name}} via ${{github.event_name}}"
+
+on:
+  push
+
+jobs:
+  demo-job:
+    runs-on: ubuntu-latest
+    name: Demo JOB
+    steps:
+      - name: Shows who ran the job
+        run: echo "This is ran by ${{github.actor}}"

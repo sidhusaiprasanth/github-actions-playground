@@ -3,10 +3,16 @@ run-name: Deploy by ${{github.actor}} on ${{ github.ref_name}} via ${{ github.ev
 
 on: [push]
 
+defaults:
+  run:
+    shell: bash
+    working-directory: .github/workflows
 
 jobs:
   say-hello:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Hello
-        run: echo "Hello World"
+      - uses: actions/checkout@v4
+      - run: |
+          pwd
+          ls -la
